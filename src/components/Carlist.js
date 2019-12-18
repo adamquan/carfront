@@ -19,8 +19,12 @@ class Carlist extends Component {
 
     // Add new car
     addCar(car) {
-        // Create a custom transaction
-        var transaction = apm.startTransaction("Add Car", "Car");
+        /**
+         * Start a managed custom transaction.
+         * The RUM agent will automatically add the fetch request and 
+         * end the transaction once it is finished.
+         */
+        apm.startTransaction("Add Car", "Car", { managed: true });
         apm.addTags(car);
 
         fetch(SERVER_URL + 'api/cars',
@@ -46,7 +50,7 @@ class Carlist extends Component {
             .catch(err => console.error(err));
 
     }
-       
+
     renderEditable = (cellInfo) => {
         return (
             <div
